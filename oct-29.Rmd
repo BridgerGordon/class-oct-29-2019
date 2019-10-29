@@ -1,0 +1,27 @@
+---
+title: "oct-29-2019"
+author: "Bridger Gordon"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(googlesheets4)
+```
+
+
+```{r, message = FALSE}
+sheets_deauth()
+training <- read_sheet("1cgP-e6THVfiW5TJ95QhX3jkNxKvc8Sicp9k_BkSRd2I")
+prop_data <- training %>%
+  drop_na(red) %>%
+  mutate(prop = (red/(red+white))) %>%
+  ggplot(aes(x=prop)) +
+  geom_histogram(binwidth = 0.04)
+
+prop_data
+
+```
+
