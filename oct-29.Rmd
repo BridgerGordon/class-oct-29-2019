@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
+library(moderndive)
 library(googlesheets4)
 ```
 
@@ -21,7 +22,18 @@ prop_data <- training %>%
   ggplot(aes(x=prop)) +
   geom_histogram(binwidth = 0.04)
 
-prop_data
+ x <- tibble(rep = 1:1000) %>%
+   mutate(bead = ifelse(rep <= 200, "red", "white")) %>%
+   rep_sample_n(25, replace = TRUE, reps = 1000) %>%
+   group_by(replicate, bead) %>%
+   summarize(count = n()) %>%
+   spread(bead, count) %>%
+   mutate(prop = red/(red + white))
+ 
+ x %>%
+   ggplot(aes(x = prop)) + 
+   geom_bar()
+
 
 ```
 
